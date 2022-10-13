@@ -1,13 +1,47 @@
-import { BrowserRouter, Route } from 'react-router-dom';
-import { RoutesWhitNotFound } from '@/utilities';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Home, Login, NotFound, Register, Single, Write } from '@/pages';
+import { ApplicationContainer, ApplicationContent } from '@/styled-components';
 import { Layout } from '@/components';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/post/:id',
+        element: <Single />,
+      },
+      {
+        path: '/write',
+        element: <Write />,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
+  },
+]);
 
 export function App() {
   return (
-    <BrowserRouter>
-      <RoutesWhitNotFound>
-        <Route path="/" element={<Layout />} />
-      </RoutesWhitNotFound>
-    </BrowserRouter>
+    <ApplicationContainer>
+      <ApplicationContent>
+        <RouterProvider router={router} />
+      </ApplicationContent>
+    </ApplicationContainer>
   );
 }
