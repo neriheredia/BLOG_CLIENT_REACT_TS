@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 50px;
+  width: 120px;
 `;
 
 export const Links = styled.div`
@@ -28,7 +28,7 @@ export const UserState = styled.span`
 
 export const Write = styled.span`
   align-items: center;
-  background-color: #b9e7e7;
+  background-color: #97c2fc;
   border: 1px solid white;
   border-radius: 50%;
   display: flex;
@@ -38,8 +38,8 @@ export const Write = styled.span`
   width: 50px;
 
   &:hover {
-    color: teal;
+    color: #9cc0d9;
     background-color: white;
-    border: 1px solid teal;
+    border: 1px solid #97c2fc;
   }
 `;

@@ -4,7 +4,7 @@ export const FooterBold = styled.b``;
 
 export const FooterContainer = styled.footer`
   align-items: center;
-  background-color: #b9e7e7;
+  background-color: #97c2fc;
   display: flex;
   font-size: 12px;
   justify-content: space-between;

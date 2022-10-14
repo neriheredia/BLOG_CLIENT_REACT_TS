@@ -22,7 +22,8 @@ export const HomeImageContent = styled.div`
 
   &::after {
     content: '';
-    background-color: #b9e7e7;
+    background-color: #97c2fc;
+    border-radius: 4px;
     height: 100%;
     left: -20px;
     position: absolute;
@@ -33,6 +34,7 @@ export const HomeImageContent = styled.div`
 `;
 
 export const HomeImage = styled.img`
+  border-radius: 4px;
   object-fit: cover;
   max-height: 400px;
   width: 100%;
@@ -59,12 +61,13 @@ export const HomeButton = styled.button`
   border: none;
   cursor: pointer;
   background-color: white;
-  border: 1px solid teal;
-  color: teal;
+  border: 1px solid #97c2fc;
+  border-radius: 4px;
+  color: #97c2fc;
 
   &:hover {
     border: 1px solid white;
-    background-color: #b9e7e7;
+    background-color: #97c2fc;
     color: black;
   }
 `;
