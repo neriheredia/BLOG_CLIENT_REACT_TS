@@ -43,7 +43,7 @@ const Navbar = () => {
         )}
         <Write>
           <Link className="link" to="/write">
-            Write
+            <Titles>Write</Titles>
           </Link>
         </Write>
       </Links>

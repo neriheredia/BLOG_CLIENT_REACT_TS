@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 120px;
+  width: 100px;
 `;
 
 export const Links = styled.div`
@@ -18,7 +18,7 @@ export const Links = styled.div`
 `;
 
 export const Titles = styled.h6`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
 `;
 
