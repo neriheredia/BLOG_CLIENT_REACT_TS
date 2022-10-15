@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Home, Login, NotFound, Register, Single, Write } from '@/pages';
-import { ApplicationContainer, ApplicationContent } from '@/styled-components';
+import { ApplicationContainer } from '@/styled-components';
 import { Layout } from '@/components';
 
 const router = createBrowserRouter([
@@ -39,9 +39,7 @@ const router = createBrowserRouter([
 export function App() {
   return (
     <ApplicationContainer>
-      <ApplicationContent>
-        <RouterProvider router={router} />
-      </ApplicationContent>
+      <RouterProvider router={router} />
     </ApplicationContainer>
   );
 }

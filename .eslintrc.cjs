@@ -20,9 +20,13 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'react/prop-types': 'off',
     'react/react-in-jsx-scope': 0,
     'react/function-component-definition': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };
