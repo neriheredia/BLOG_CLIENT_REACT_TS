@@ -8,3 +8,11 @@ export const getPosts = () => {
     controller,
   };
 };
+
+export const getPostById = (id: string) => {
+  const controller = loadAbort();
+  return {
+    call: publicBaseURL.get(`post/${id}`, { signal: controller.signal }),
+    controller,
+  };
+};
