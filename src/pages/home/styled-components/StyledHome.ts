@@ -54,6 +54,7 @@ export const HomePostTitle = styled.h1`
 
 export const HomePostDescription = styled.p`
   font-size: 18px;
+  margin-bottom: 10px;
 `;
 
 export const HomeButton = styled.button`

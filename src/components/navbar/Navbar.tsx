@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '@/assets/logo.png';
+import { Images } from '@/constants';
 import {
   Container,
   Links,
@@ -13,7 +13,7 @@ const Navbar = () => {
   const currentUser = false;
   return (
     <Container>
-      <Logo src={logo} alt="Logo-Empresa" />
+      <Logo src={Images.Logo} alt="Logo-Empresa" />
       <Links>
         <Link className="link" to="/">
           <Titles>ART</Titles>

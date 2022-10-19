@@ -30,11 +30,9 @@ const Home = () => {
                       <HomePostTitle>{postTitle}</HomePostTitle>
                     </Link>
                     <HomePostDescription>{postDescription}</HomePostDescription>
-                    <HomeButton>
-                      <Link className="link" to={`/post/${postId}`}>
-                        Read More
-                      </Link>
-                    </HomeButton>
+                    <Link className="link" to={`/post/${postId}`}>
+                      <HomeButton>Read More</HomeButton>
+                    </Link>
                   </HomeContent>
                 </HomePost>
               )

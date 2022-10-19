@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, EmailField, PasswordField, UsernameField } from '@/components';
+import { Button, InputField } from '@/components';
 import { RegisterContainer, RegisterTitle } from './styled-components';
 import { schemaRegister } from './model';
 
@@ -34,9 +34,34 @@ const Register = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <UsernameField register={register} errors={errors} />
-            <EmailField register={register} errors={errors} />
-            <PasswordField register={register} errors={errors} />
+            <InputField
+              errors={errors}
+              label="First Name"
+              name="firstName"
+              register={register}
+              type="text"
+            />
+            <InputField
+              errors={errors}
+              label="Surname"
+              name="surname"
+              register={register}
+              type="text"
+            />
+            <InputField
+              errors={errors}
+              label="Email"
+              name="email"
+              register={register}
+              type="email"
+            />
+            <InputField
+              errors={errors}
+              label="Password"
+              name="password"
+              register={register}
+              type="password"
+            />
             <Button isDirty={isDirty} isValid={isValid} type="submit">
               Register
             </Button>

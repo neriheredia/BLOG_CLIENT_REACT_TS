@@ -3,18 +3,21 @@ import { PasswordRegex } from '@/models';
 
 export const schemaRegister = yup
   .object({
-    username: yup.string().required('Username es requerido'),
+    firstName: yup.string().required('First name is required!').trim(),
+    surname: yup.string().required('Surname is required!').trim(),
     email: yup
       .string()
-      .email('Debe ser un email valido!')
-      .required('Email es requerido'),
+      .email('It must be a valid email!')
+      .trim()
+      .required('Email is required!'),
     password: yup
       .string()
-      .required('Password es requerido')
-      .max(18, 'Máximo 18 caracteres')
+      .required('Password is required!')
+      .max(8, 'Minimum 18 characters')
+      .max(18, 'Maximum 18 characters')
       .matches(
         PasswordRegex,
-        'Password debe ser alfanumérico, y contener máximo 18 caracteres, una mayúscula y un caracter especial'
+        'Password must be aphanumeric, and contain between 8 and 18 characters, one uppercase and one special character!'
       ),
   })
   .required();

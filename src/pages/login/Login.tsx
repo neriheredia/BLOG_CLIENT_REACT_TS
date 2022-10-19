@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from './model';
 import { LoginContainer, LoginTitle } from './styled-components';
-import { Button, EmailField, PasswordField } from '@/components';
+import { Button, InputField } from '@/components';
 
 const Login = () => {
   const {
@@ -34,8 +34,20 @@ const Login = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <EmailField register={register} errors={errors} />
-            <PasswordField register={register} errors={errors} />
+            <InputField
+              errors={errors}
+              label="Email"
+              name="email"
+              register={register}
+              type="email"
+            />
+            <InputField
+              errors={errors}
+              label="Password"
+              name="password"
+              register={register}
+              type="password"
+            />
             <Button isDirty={isDirty} isValid={isValid} type="submit">
               Login
             </Button>

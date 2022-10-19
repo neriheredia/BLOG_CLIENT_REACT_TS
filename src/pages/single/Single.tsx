@@ -12,8 +12,7 @@ import {
   SingleUser,
   SingleUserName,
 } from './styled-components';
-import Edit from '@/assets/edit.png';
-import Delete from '@/assets/delete.png';
+import { Images } from '@/constants';
 import { Menu } from '@/components';
 import { getPathId } from '@/utilities';
 import { usePost } from './hook';
@@ -49,8 +48,12 @@ const Single = () => {
                 </SingleDescription>
                 {currentUser && (
                   <SingleEdit>
-                    <SingleImageEdit src={Edit} alt="" />
-                    <SingleImageEdit onClick={() => {}} src={Delete} alt="" />
+                    <SingleImageEdit src={Images.Edit} alt="" />
+                    <SingleImageEdit
+                      onClick={() => {}}
+                      src={Images.Delete}
+                      alt=""
+                    />
                   </SingleEdit>
                 )}
               </SingleSeparator>
