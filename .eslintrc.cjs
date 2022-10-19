@@ -28,5 +28,11 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-expressions': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    'react/jsx-no-useless-fragment': 'off',
+    // Borrar regla despues de agregar base de datos realcional
+    'no-underscore-dangle': 'off',
   },
 };

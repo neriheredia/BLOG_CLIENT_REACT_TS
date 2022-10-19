@@ -35,6 +35,7 @@ export const HomeImageContent = styled.div`
 
 export const HomeImage = styled.img`
   border-radius: 4px;
+  height: 100%;
   object-fit: cover;
   max-height: 400px;
   width: 100%;
