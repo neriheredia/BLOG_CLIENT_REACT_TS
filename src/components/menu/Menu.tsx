@@ -8,7 +8,11 @@ import {
 } from './styled-components';
 import { postFakeData } from '@/constants';
 
-const Menu = () => {
+interface Props {
+  cat: string;
+}
+
+const Menu = ({ cat }: Props) => {
   return (
     <MenuContainer>
       <MenuTitle>Other posts you may like</MenuTitle>
