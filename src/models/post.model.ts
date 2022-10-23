@@ -8,3 +8,11 @@ export interface IPost {
   title: string;
   user: IUser;
 }
+
+export interface IPostMenu {
+  postId: string;
+  postCategory: string;
+  postImage: string;
+  postTitle: string;
+  postDescription?: string;
+}

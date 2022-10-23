@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 import {
   SingleAvatar,
+  SingleAvatarDefault,
   SingleContainer,
   SingleContent,
   SingleDescription,
@@ -14,21 +17,26 @@ import {
 } from './styled-components';
 import { Images } from '@/constants';
 import { Menu } from '@/components';
-import { getPathId } from '@/utilities';
+import { getPathId, postCapitalize } from '@/utilities';
 import { usePost } from './hook';
+import { AppStore } from '@/redux/store';
 
 const Single = () => {
   const location = useLocation();
   const pathId = getPathId(location);
-  const currentUser = false;
+  const currentUser = useSelector((state: AppStore) => state.user.currentUser);
 
   const {
     postImage,
     loading,
     postDescription,
     postCategory,
-    postId,
+    postUserId,
     postTitle,
+    postCreated,
+    postUserProfileImage,
+    postUserAvatar,
+    postUserCreator,
   } = usePost(pathId);
 
   return (
@@ -40,13 +48,20 @@ const Single = () => {
           <SingleContent>
             <SingleImage src={postImage} />
             <SingleUser>
-              <SingleAvatar src="https://d2qc4bb64nav1a.cloudfront.net/cdn/13/images/curso-online-de-como-leer-el-rostro-en-las-personas:-los-microgestos_l_primaria_1_1561117635.jpg" />
+              {postUserProfileImage && postUserProfileImage !== '' ? (
+                <SingleAvatar src={postUserProfileImage} />
+              ) : (
+                <SingleAvatarDefault>{postUserAvatar}</SingleAvatarDefault>
+              )}
               <SingleSeparator>
-                <SingleUserName>HEREDIA PABLO</SingleUserName>
+                <SingleUserName>
+                  {postUserCreator && postCapitalize(postUserCreator)}
+                </SingleUserName>
                 <SingleDescription>
-                  Lunes 16 de Febrero de 2022
+                  {postCreated &&
+                    moment(postCreated).format('MMMM Do YYYY, h:mm:ss a')}
                 </SingleDescription>
-                {currentUser && (
+                {currentUser && currentUser.id === postUserId && (
                   <SingleEdit>
                     <SingleImageEdit src={Images.Edit} alt="" />
                     <SingleImageEdit

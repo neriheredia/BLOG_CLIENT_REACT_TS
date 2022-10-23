@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { useAsync, useFetchAndLoad } from '@/hook';
-import { getPosts } from '@/services';
+import { getPosts, getPostsCategories } from '@/services';
 import { formattedAllPosts } from '@/utilities';
 
-const usePosts = () => {
+const usePosts = (category?: string) => {
   const { loading, callEndpoint } = useFetchAndLoad();
   const [posts, setPosts] = useState<any>(null);
 
   const getApiData = async () => {
+    if (category) {
+      const response = await callEndpoint(getPostsCategories(category));
+      return response;
+    }
     const response = await callEndpoint(getPosts());
     return response;
   };
@@ -17,7 +21,7 @@ const usePosts = () => {
     setPosts(formatted);
   };
 
-  useAsync(getApiData, postAdapterPrint, () => {});
+  useAsync(getApiData, postAdapterPrint, () => {}, [category]);
 
   return {
     loading,

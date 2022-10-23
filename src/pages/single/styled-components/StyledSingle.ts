@@ -32,6 +32,21 @@ export const SingleAvatar = styled.img`
   width: 50px;
 `;
 
+export const SingleAvatarDefault = styled.div`
+  align-items: center;
+  background-color: #4946f4;
+  border: 1px solid #4946f4;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  font-size: 24px;
+  font-weight: 800;
+  height: 50px;
+  justify-content: center;
+  letter-spacing: 2px;
+  width: 50px;
+`;
+
 export const SingleSeparator = styled.div``;
 
 export const SingleUserName = styled.div`

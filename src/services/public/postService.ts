@@ -9,6 +9,16 @@ export const getPosts = () => {
   };
 };
 
+export const getPostsCategories = (category: string) => {
+  const controller = loadAbort();
+  return {
+    call: publicBaseURL.get(`post?cat=${category}`, {
+      signal: controller.signal,
+    }),
+    controller,
+  };
+};
+
 export const getPostById = (id: string) => {
   const controller = loadAbort();
   return {

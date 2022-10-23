@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { saveLocalStorage } from '@/utilities';
 import { IUser } from '../../models/user.model';
 
 interface StateProp {
@@ -8,7 +9,9 @@ interface StateProp {
 }
 
 export const initialState: StateProp = {
-  currentUser: null,
+  currentUser: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user') as string)
+    : null,
   error: false,
   loading: false,
 };
@@ -33,6 +36,7 @@ export const userSlice = createSlice({
     loginUserSuccess: (state, { payload }: PayloadAction<IUser>) => {
       state.loading = false;
       state.currentUser = payload;
+      saveLocalStorage('user', payload);
     },
     loginUserFailure: (state) => {
       state.loading = false;

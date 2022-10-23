@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Images } from '@/constants';
 import {
@@ -8,32 +9,37 @@ import {
   UserState,
   Write,
 } from './styled-components';
+import { AppStore } from '@/redux/store';
+import {
+  capitalize,
+  categoryCapitalize,
+  categoryCapitalizeSearch,
+} from '@/utilities';
+import { useCategories } from './hook';
+import { ICategoryNavbar } from '../../models/category.model';
 
 const Navbar = () => {
-  const currentUser = false;
+  const currentUser = useSelector((state: AppStore) => state.user.currentUser);
+  const { categories } = useCategories();
+
   return (
     <Container>
       <Logo src={Images.Logo} alt="Logo-Empresa" />
       <Links>
-        <Link className="link" to="/">
-          <Titles>ART</Titles>
-        </Link>
-        <Link className="link" to="/">
-          <Titles>SCIENCE</Titles>
-        </Link>
-        <Link className="link" to="/">
-          <Titles>TECHNOLOGY</Titles>
-        </Link>
-        <Link className="link" to="/">
-          <Titles>CINEMA</Titles>
-        </Link>
-        <Link className="link" to="/">
-          <Titles>DESIGN</Titles>
-        </Link>
-        <Link className="link" to="/">
-          <Titles>FOOD</Titles>
-        </Link>
-        <UserState>{currentUser && 'pedro'}</UserState>
+        {categories &&
+          categories.map(({ categryId, categoryName }: ICategoryNavbar) => (
+            <Titles key={categryId}>
+              <Link
+                className="link"
+                to={`/?cat=${categoryCapitalizeSearch(categoryName)}`}
+              >
+                {categoryCapitalize(categoryName)}
+              </Link>
+            </Titles>
+          ))}
+        <UserState>
+          {currentUser && capitalize(currentUser.firstName)}
+        </UserState>
         {currentUser ? (
           <UserState>Logout</UserState>
         ) : (

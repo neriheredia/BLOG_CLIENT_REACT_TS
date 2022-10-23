@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   HomePost,
   HomePosts,
@@ -10,9 +10,12 @@ import {
   HomeButton,
 } from './styled-components';
 import { usePosts } from './hook';
+import { formattedLocation } from '@/utilities';
 
 const Home = () => {
-  const { loading, posts } = usePosts();
+  const location = useLocation().search;
+  const formmatedCategorySearch = formattedLocation(location);
+  const { loading, posts } = usePosts(formmatedCategorySearch);
 
   return (
     <>

@@ -1,6 +1,11 @@
 export { default as RoutesWhitNotFound } from './RoutesWhitNotFound.utility';
+export * from './categoriesCapitalize';
+export * from './formattedAllCategories';
 export * from './formattedAllPosts';
+export * from './formattedLocationSearch';
 export * from './getPathId';
 export * from './loadAbort.axios';
 export * from './localStorageUtils';
+export * from './postCapitalize';
+export * from './toCapitalizate';
 export * from './tonkenInterceptor';

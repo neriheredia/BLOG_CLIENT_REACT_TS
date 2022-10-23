@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from './model';
@@ -19,6 +19,7 @@ import { tokenInterceptor } from '@/utilities';
 const Login = () => {
   const { callEndpoint } = useFetchAndLoad();
   const dispatch = useDispatch();
+  const navigation = useNavigate();
   const {
     register,
     handleSubmit,
@@ -36,6 +37,7 @@ const Login = () => {
       tokenInterceptor(resp);
       const userFormatted: any = userAdapter(resp?.data.data);
       dispatch(loginUserSuccess(userFormatted));
+      navigation('/');
     } catch (error: any) {
       dispatch(loginUserFailure());
     }
