@@ -1,11 +1,24 @@
+import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from './model';
-import { LoginContainer, LoginTitle } from './styled-components';
+import { LoginContainer, LoginSpan, LoginTitle } from './styled-components';
 import { Button, InputField } from '@/components';
+import { useFetchAndLoad } from '@/hook';
+import {
+  loginUserStart,
+  loginUserSuccess,
+  loginUserFailure,
+} from '@/redux/states/user';
+import { loginUser } from '@/services/public/loginService';
+import { userAdapter } from '@/adapters/user.adapter';
+import { tokenInterceptor } from '@/utilities';
 
 const Login = () => {
+  const { callEndpoint } = useFetchAndLoad();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -16,8 +29,20 @@ const Login = () => {
     mode: 'all',
   });
 
+  const postApiData = async (data: any) => {
+    dispatch(loginUserStart());
+    try {
+      const resp = await callEndpoint(loginUser(data));
+      tokenInterceptor(resp);
+      const userFormatted: any = userAdapter(resp?.data.data);
+      dispatch(loginUserSuccess(userFormatted));
+    } catch (error: any) {
+      dispatch(loginUserFailure());
+    }
+  };
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    postApiData(data);
     reset();
   };
 
@@ -51,6 +76,13 @@ const Login = () => {
             <Button isDirty={isDirty} isValid={isValid} type="submit">
               Login
             </Button>
+            <LoginSpan>
+              Don`t you have an account?
+              <Link className="link" to="/register">
+                {' '}
+                <span>Register</span>
+              </Link>
+            </LoginSpan>
           </Box>
         </form>
       </Box>

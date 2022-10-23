@@ -4,5 +4,6 @@ export * from './fields';
 export * from './footer';
 export * from './input';
 export * from './layout';
+export * from './loadingButton';
 export * from './menu';
 export * from './navbar';

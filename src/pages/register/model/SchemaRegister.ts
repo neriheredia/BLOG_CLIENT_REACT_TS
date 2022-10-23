@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { PasswordRegex } from '@/models';
+import { EmailRegex, PasswordRegex } from '@/models';
 
 export const schemaRegister = yup
   .object({
@@ -9,6 +9,7 @@ export const schemaRegister = yup
       .string()
       .email('It must be a valid email!')
       .trim()
+      .matches(EmailRegex, 'It must be a valid email!')
       .required('Email is required!'),
     password: yup
       .string()

@@ -1,11 +1,30 @@
-import { Box } from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, InputField } from '@/components';
+import { Alert, InputField, LoadingButton } from '@/components';
 import { RegisterContainer, RegisterTitle } from './styled-components';
 import { schemaRegister } from './model';
+import { useFetchAndLoad } from '@/hook';
+import {
+  registerUserStart,
+  registerUserSuccess,
+  registerUserFailure,
+} from '@/redux/states/user';
+import { registerUser } from '@/services';
+import { AppStore } from '@/redux/store';
+import { IUser } from '../../models/user.model';
 
 const Register = () => {
+  const { callEndpoint } = useFetchAndLoad();
+  const userLoading = useSelector((state: AppStore) => state.user.loading);
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,9 +35,25 @@ const Register = () => {
     mode: 'all',
   });
 
+  const postApiData = async (data: IUser) => {
+    dispatch(registerUserStart());
+    try {
+      const resp = await callEndpoint(registerUser(data));
+      dispatch(registerUserSuccess());
+      setMessage(resp.data.message);
+      setStatus(resp.data.status);
+      setShowAlert(true);
+    } catch (error: any) {
+      dispatch(registerUserFailure());
+      setMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    postApiData(data);
     reset();
+    !userLoading && !showAlert && setTimeout(() => navigation('/login'), 3000);
   };
 
   return (
@@ -62,12 +97,23 @@ const Register = () => {
               register={register}
               type="password"
             />
-            <Button isDirty={isDirty} isValid={isValid} type="submit">
+            <LoadingButton
+              loading={userLoading}
+              isDirty={isDirty}
+              isValid={isValid}
+              type="submit"
+            >
               Register
-            </Button>
+            </LoadingButton>
           </Box>
         </form>
       </Box>
+      <Alert
+        error={status !== 201}
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        text={message}
+      />
     </RegisterContainer>
   );
 };

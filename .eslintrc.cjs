@@ -32,6 +32,11 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/ban-types': 'off',
     'react/jsx-no-useless-fragment': 'off',
+    'no-return-assign': 'off',
+    'tno-param-reassign': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-param-reassign': 'off',
+    'import/no-cycle': 'off',
     // Borrar regla despues de agregar base de datos realcional
     'no-underscore-dangle': 'off',
   },

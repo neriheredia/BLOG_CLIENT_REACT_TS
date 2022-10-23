@@ -15,3 +15,11 @@ export const LoginTitle = styled.h1`
   font-size: 60px;
   margin-bottom: 20px;
 `;
+
+export const LoginSpan = styled.span`
+  font-size: 13px;
+  text-align: center;
+  span:hover {
+    color: #6b94c9;
+  }
+`;

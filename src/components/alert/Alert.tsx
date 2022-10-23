@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { green, red, yellow } from '@mui/material/colors';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
@@ -42,8 +41,7 @@ const AlertContainer: any = styled.div`
 `;
 
 const AlertText = styled.a`
-  font-family: Nunito Sans Regular;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 18px;
   margin-left: 8px;
 `;
