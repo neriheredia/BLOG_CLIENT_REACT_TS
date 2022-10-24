@@ -1,10 +1,11 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { Images } from '@/constants';
 import {
   Container,
   Links,
   Logo,
+  SingleAvatarDefault,
   Titles,
   UserState,
   Write,
@@ -16,11 +17,19 @@ import {
   categoryCapitalizeSearch,
 } from '@/utilities';
 import { useCategories } from './hook';
-import { ICategoryNavbar } from '../../models/category.model';
+import { ICategoryNavbar } from '@/models';
+import { logoutSuccess } from '@/redux/states/user';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
   const currentUser = useSelector((state: AppStore) => state.user.currentUser);
   const { categories } = useCategories();
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+    navigation('/');
+  };
 
   return (
     <Container>
@@ -37,21 +46,21 @@ const Navbar = () => {
               </Link>
             </Titles>
           ))}
-        <UserState>
-          {currentUser && capitalize(currentUser.firstName)}
-        </UserState>
         {currentUser ? (
-          <UserState>Logout</UserState>
+          <>
+            <UserState onClick={handleLogout}>Logout</UserState>
+            <SingleAvatarDefault>{currentUser.avatar}</SingleAvatarDefault>
+          </>
         ) : (
           <Link className="link" to="/login">
             <Titles>Login</Titles>
           </Link>
         )}
-        <Write>
-          <Link className="link" to="/write">
+        <Link className="link" to={!currentUser ? '/login' : '/write'}>
+          <Write>
             <Titles>Write</Titles>
-          </Link>
-        </Write>
+          </Write>
+        </Link>
       </Links>
     </Container>
   );

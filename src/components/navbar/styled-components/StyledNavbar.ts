@@ -18,12 +18,20 @@ export const Links = styled.div`
 `;
 
 export const Titles = styled.h6`
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 export const UserState = styled.span`
   cursor: pointer;
+  font-weight: 600;
+  margin-right: -8px;
+
+  &:hover {
+    color: #97c2fc;
+    font-weight: 600;
+    transition: 0.4s;
+  }
 `;
 
 export const Write = styled.span`
@@ -42,4 +50,20 @@ export const Write = styled.span`
     background-color: white;
     border: 1px solid #97c2fc;
   }
+`;
+
+export const SingleAvatarDefault = styled.div`
+  align-items: center;
+  background-color: #4946f4;
+  border: 1px solid #4946f4;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: default;
+  display: flex;
+  font-size: 16px;
+  font-weight: 800;
+  height: 30px;
+  justify-content: center;
+  letter-spacing: 2px;
+  width: 30px;
 `;

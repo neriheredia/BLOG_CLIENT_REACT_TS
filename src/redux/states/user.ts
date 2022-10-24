@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { saveLocalStorage } from '@/utilities';
+import { clearLocalStorage, saveLocalStorage } from '@/utilities';
 import { IUser } from '../../models/user.model';
 
 interface StateProp {
@@ -42,6 +42,11 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    logoutSuccess: (state) => {
+      state.currentUser = null;
+      clearLocalStorage('user');
+      clearLocalStorage('access-token');
+    },
   },
 });
 
@@ -52,4 +57,5 @@ export const {
   loginUserStart,
   loginUserSuccess,
   loginUserFailure,
+  logoutSuccess,
 } = userSlice.actions;
