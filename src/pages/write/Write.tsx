@@ -16,20 +16,30 @@ import {
 } from './styled-components';
 
 const Write = () => {
-  const [value, setValue] = useState('');
+  const [desc, setDesc] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [file, setFile] = useState<any | null>(null);
+  const [cat, setCat] = useState<string>('');
 
-  console.log(value);
+  console.log(title);
+  console.log(desc);
+  console.log(file);
+  console.log(cat);
 
   return (
     <WriteContainer>
       <WriteContent>
-        <WriteInput type="text" placeholder="Title" onChange={() => {}} />
+        <WriteInput
+          type="text"
+          placeholder="Title"
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <WriteEditorContainer>
           <ReactQuill
             className="editor"
             theme="snow"
-            value={value}
-            onChange={setValue}
+            value={desc}
+            onChange={setDesc}
           />
         </WriteEditorContainer>
       </WriteContent>
@@ -47,7 +57,7 @@ const Write = () => {
             type="file"
             id="file"
             name=""
-            onChange={() => {}}
+            onChange={(e) => setFile(e.target.files[0])}
           />
           <WriteFile className="file" htmlFor="file">
             Upload Image
@@ -62,62 +72,79 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="art"
-              id="art"
-              onChange={() => {}}
+              checked={cat === 'news'}
+              name="news"
+              value="news"
+              id="news"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="art">Art</WriteFile>
+            <WriteFile htmlFor="news">NEWS</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="science"
-              id="science"
-              onChange={() => {}}
+              checked={cat === 'computing'}
+              name="computing"
+              value="computing"
+              id="computing"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="science">Science</WriteFile>
+            <WriteFile htmlFor="computing">COMPUTING</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="technology"
-              id="technology"
-              onChange={() => {}}
+              checked={cat === 'marketing'}
+              name="marketing"
+              value="marketing"
+              id="marketing"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="technology">Technology</WriteFile>
+            <WriteFile htmlFor="marketing">MARKETING</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="cinema"
-              id="cinema"
-              onChange={() => {}}
+              checked={cat === 'labor'}
+              name="labor"
+              value="labor"
+              id="labor"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="cinema">Cinema</WriteFile>
+            <WriteFile htmlFor="labor">LABOR</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="design"
-              id="design"
-              onChange={() => {}}
+              checked={cat === 'stories'}
+              name="stories"
+              value="stories"
+              id="stories"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="design">Design</WriteFile>
+            <WriteFile htmlFor="stories">STORIES</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              name="cat"
-              value="food"
-              id="food"
-              onChange={() => {}}
+              checked={cat === 'sports'}
+              name="sports"
+              value="sports"
+              id="sports"
+              onChange={(e) => setCat(e.target.value)}
             />
-            <WriteFile htmlFor="food">Food</WriteFile>
+            <WriteFile htmlFor="sports">SPORTS</WriteFile>
+          </WriteCategories>
+          <WriteCategories>
+            <WriteInput
+              type="radio"
+              checked={cat === 'music'}
+              name="music"
+              value="music"
+              id="music"
+              onChange={(e) => setCat(e.target.value)}
+            />
+            <WriteFile htmlFor="music">MUSIC</WriteFile>
           </WriteCategories>
         </WriteItem>
       </WriteMenu>
