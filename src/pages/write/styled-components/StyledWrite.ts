@@ -33,7 +33,7 @@ export const WriteInput = styled.input`
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 10px;
-  margin-bottom: 4px;
+  margin-bottom: ${({ $botton }: any) => ($botton ? '6px' : '0px')};
 `;
 
 export const WriteEditorContainer = styled.div`
@@ -48,12 +48,13 @@ export const WriteTitle = styled.h1`
 `;
 
 export const WriteFile = styled.label`
+  color: #555555;
   cursor: pointer;
   font-size: 13px;
   text-decoration: underline;
 
   &:hover {
-    color: #8fd6d9;
+    color: #6b94c9;
   }
 `;
 
@@ -64,12 +65,19 @@ export const WriteButtons = styled.div`
 
 export const WriteButton = styled.button`
   background-color: white;
-  border: 1px solid #97c2fc;
+  border: 1px solid #6b94c9;
   border-radius: 4px;
-  color: #97c2fc;
+  color: #6b94c9;
   cursor: pointer;
+  font-weight: 600;
   margin-right: 4px;
   padding: 3px 5px;
+
+  &:hover {
+    background-color: #6b94c9;
+    color: white;
+    font-weight: 600;
+  }
 `;
 
 export const WriteCategories = styled.div`

@@ -11,11 +11,7 @@ import {
   Write,
 } from './styled-components';
 import { AppStore } from '@/redux/store';
-import {
-  capitalize,
-  categoryCapitalize,
-  categoryCapitalizeSearch,
-} from '@/utilities';
+import { categoryCapitalize, categoryCapitalizeSearch } from '@/utilities';
 import { useCategories } from './hook';
 import { ICategoryNavbar } from '@/models';
 import { logoutSuccess } from '@/redux/states/user';

@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ReactQuill from 'react-quill';
+import { upload } from '@/utilities';
 import 'react-quill/dist/quill.snow.css';
 import {
   WriteButton,
@@ -16,23 +18,48 @@ import {
 } from './styled-components';
 
 const Write = () => {
-  const [desc, setDesc] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+  const location = useLocation();
+  const { postCategory, postDescription, postImage, postTitle } =
+    location.state;
+  const [desc, setDesc] = useState<string>(postDescription || '');
   const [file, setFile] = useState<any | null>(null);
-  const [cat, setCat] = useState<string>('');
+  const [newPost, setNewPost] = useState({
+    cat: postCategory || '',
+    title: postTitle || '',
+    photo: postImage || '',
+    photoPublicId: '',
+  });
 
-  console.log(title);
-  console.log(desc);
-  console.log(file);
-  console.log(cat);
+  const handleChange = (event: any) => {
+    const { value } = event.target;
+    setNewPost({ ...newPost, [event.target.name]: value });
+  };
+
+  const handlePublish = async () => {
+    // TODO: Crear un Custom Hook Para Subir las imagenes
+    const result = await upload(file); //! Delete Function and convert CustomHook
+
+    const newCreatePost = {
+      ...newPost,
+      desc,
+      photo: result?.data.photo,
+      photoPublicId: result?.data.photoPublicId,
+    };
+
+    // TODO: Create method, newPostSlice and UpdatePostSlice
+    console.log({ newCreatePost });
+  };
 
   return (
     <WriteContainer>
       <WriteContent>
         <WriteInput
+          $botton
           type="text"
+          name="title"
+          value={newPost.title}
           placeholder="Title"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => handleChange(e)}
         />
         <WriteEditorContainer>
           <ReactQuill
@@ -56,7 +83,6 @@ const Write = () => {
             style={{ display: 'none' }}
             type="file"
             id="file"
-            name=""
             onChange={(e) => setFile(e.target.files[0])}
           />
           <WriteFile className="file" htmlFor="file">
@@ -64,7 +90,7 @@ const Write = () => {
           </WriteFile>
           <WriteButtons>
             <WriteButton>Save as a draft</WriteButton>
-            <WriteButton onClick={() => {}}>Publish</WriteButton>
+            <WriteButton onClick={handlePublish}>Publish</WriteButton>
           </WriteButtons>
         </WriteItem>
         <WriteItem className="item">
@@ -72,77 +98,77 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'news'}
-              name="news"
-              value="news"
+              checked={newPost.cat === 'news'}
+              name="cat"
+              value={newPost.cat}
               id="news"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="news">NEWS</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'computing'}
-              name="computing"
-              value="computing"
+              checked={newPost.cat === 'computing'}
+              name="cat"
+              value={newPost.cat}
               id="computing"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="computing">COMPUTING</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'marketing'}
-              name="marketing"
-              value="marketing"
+              checked={newPost.cat === 'marketing'}
+              name="cat"
+              value={newPost.cat}
               id="marketing"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="marketing">MARKETING</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'labor'}
-              name="labor"
-              value="labor"
+              checked={newPost.cat === 'labor'}
+              name="cat"
+              value={newPost.cat}
               id="labor"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="labor">LABOR</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'stories'}
-              name="stories"
-              value="stories"
+              checked={newPost.cat === 'stories'}
+              name="cat"
+              value={newPost.cat}
               id="stories"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="stories">STORIES</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'sports'}
-              name="sports"
-              value="sports"
+              checked={newPost.cat === 'sports'}
+              name="cat"
+              value={newPost.cat}
               id="sports"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="sports">SPORTS</WriteFile>
           </WriteCategories>
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={cat === 'music'}
-              name="music"
-              value="music"
+              checked={newPost.cat === 'music'}
+              name="cat"
+              value={newPost.cat}
               id="music"
-              onChange={(e) => setCat(e.target.value)}
+              onChange={(e) => handleChange(e)}
             />
             <WriteFile htmlFor="music">MUSIC</WriteFile>
           </WriteCategories>

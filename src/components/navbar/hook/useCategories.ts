@@ -13,7 +13,6 @@ const useCategories = () => {
   };
 
   const postAdapterPrint = (data: any) => {
-    console.log(data);
     const formatted = formattedAllCategories(data.data);
     setCategories(formatted);
   };

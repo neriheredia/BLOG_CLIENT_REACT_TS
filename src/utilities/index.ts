@@ -9,3 +9,4 @@ export * from './localStorageUtils';
 export * from './postCapitalize';
 export * from './toCapitalizate';
 export * from './tonkenInterceptor';
+export * from './uploadImage';

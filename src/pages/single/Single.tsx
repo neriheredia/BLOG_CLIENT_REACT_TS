@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import {
   SingleAvatar,
@@ -37,6 +37,7 @@ const Single = () => {
     postUserProfileImage,
     postUserAvatar,
     postUserCreator,
+    postId,
   } = usePost(pathId);
 
   return (
@@ -61,9 +62,19 @@ const Single = () => {
                   {postCreated &&
                     moment(postCreated).format('MMMM Do YYYY, h:mm:ss a')}
                 </SingleDescription>
-                {currentUser && currentUser.id === postUserId && (
+                {currentUser && (
                   <SingleEdit>
-                    <SingleImageEdit src={Images.Edit} alt="" />
+                    <Link
+                      to={`/write?edit=${postId}`}
+                      state={{
+                        postImage,
+                        postDescription,
+                        postTitle,
+                        postCategory,
+                      }}
+                    >
+                      <SingleImageEdit src={Images.Edit} alt="" />
+                    </Link>
                     <SingleImageEdit
                       onClick={() => {}}
                       src={Images.Delete}
