@@ -33,7 +33,6 @@ export const WriteInput = styled.input`
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 10px;
-  margin-bottom: ${({ $botton }: any) => ($botton ? '6px' : '0px')};
 `;
 
 export const WriteEditorContainer = styled.div`

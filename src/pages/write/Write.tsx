@@ -138,7 +138,7 @@ const Write = () => {
     <WriteContainer>
       <WriteContent>
         <WriteInput
-          $botton
+          style={{ marginBottom: '6px' }}
           type="text"
           name="title"
           value={newPost.title}
