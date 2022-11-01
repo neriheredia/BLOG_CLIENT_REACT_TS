@@ -1,5 +1,5 @@
-import { Suspense } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import {
   HomePost,
   HomePosts,
@@ -34,7 +34,11 @@ const Home = () => {
                   <Link className="link" to={`/post/${postId}`}>
                     <HomePostTitle>{postTitle}</HomePostTitle>
                   </Link>
-                  <HomePostDescription>{postDescription}</HomePostDescription>
+                  <HomePostDescription
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(postDescription),
+                    }}
+                  />
                   <Link className="link" to={`/post/${postId}`}>
                     <HomeButton>Read More</HomeButton>
                   </Link>

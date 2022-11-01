@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment';
+import DOMPurify from 'dompurify';
 import {
   SingleAvatar,
   SingleAvatarDefault,
@@ -16,10 +17,10 @@ import {
   SingleUserName,
 } from './styled-components';
 import { Images } from '@/constants';
-import { Menu } from '@/components';
+import { Menu, Spinner } from '@/components';
 import { getPathId, postCapitalize } from '@/utilities';
 import { usePost } from './hook';
-import { AppStore } from '@/redux/store';
+import { AppStore } from '@/models';
 
 const Single = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const Single = () => {
 
   const {
     postImage,
+    postImageId,
     loading,
     postDescription,
     postCategory,
@@ -41,56 +43,60 @@ const Single = () => {
   } = usePost(pathId);
 
   return (
-    <SingleContainer>
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <>
-          <SingleContent>
-            <SingleImage src={postImage} />
-            <SingleUser>
-              {postUserProfileImage && postUserProfileImage !== '' ? (
-                <SingleAvatar src={postUserProfileImage} />
-              ) : (
-                <SingleAvatarDefault>{postUserAvatar}</SingleAvatarDefault>
+    <>
+      <Spinner isVisible={loading} size={40} text="Cargando..." />
+      <SingleContainer>
+        <SingleContent>
+          <SingleImage src={postImage} />
+          <SingleUser>
+            {postUserProfileImage && postUserProfileImage !== '' ? (
+              <SingleAvatar src={postUserProfileImage} />
+            ) : (
+              <SingleAvatarDefault>{postUserAvatar}</SingleAvatarDefault>
+            )}
+            <SingleSeparator>
+              <SingleUserName>
+                {postUserCreator && postCapitalize(postUserCreator)}
+              </SingleUserName>
+              <SingleDescription>
+                {postCreated &&
+                  moment(postCreated).format('MMMM Do YYYY, h:mm:ss a')}
+              </SingleDescription>
+              {currentUser && (
+                <SingleEdit>
+                  <Link
+                    to={`/write?edit=${postId}`}
+                    state={{
+                      postId,
+                      postUserId,
+                      postImage,
+                      postImageId,
+                      postDescription,
+                      postTitle,
+                      postCategory,
+                    }}
+                  >
+                    <SingleImageEdit src={Images.Edit} alt="" />
+                  </Link>
+                  <SingleImageEdit
+                    onClick={() => {}}
+                    src={Images.Delete}
+                    alt=""
+                  />
+                </SingleEdit>
               )}
-              <SingleSeparator>
-                <SingleUserName>
-                  {postUserCreator && postCapitalize(postUserCreator)}
-                </SingleUserName>
-                <SingleDescription>
-                  {postCreated &&
-                    moment(postCreated).format('MMMM Do YYYY, h:mm:ss a')}
-                </SingleDescription>
-                {currentUser && (
-                  <SingleEdit>
-                    <Link
-                      to={`/write?edit=${postId}`}
-                      state={{
-                        postImage,
-                        postDescription,
-                        postTitle,
-                        postCategory,
-                      }}
-                    >
-                      <SingleImageEdit src={Images.Edit} alt="" />
-                    </Link>
-                    <SingleImageEdit
-                      onClick={() => {}}
-                      src={Images.Delete}
-                      alt=""
-                    />
-                  </SingleEdit>
-                )}
-              </SingleSeparator>
-            </SingleUser>
-            <SingleTitle>{postTitle}</SingleTitle>
-            <SingleDescription>{postDescription}</SingleDescription>
-          </SingleContent>
-          <Menu cat={postCategory} />
-        </>
-      )}
-    </SingleContainer>
+            </SingleSeparator>
+          </SingleUser>
+          <SingleTitle>{postTitle}</SingleTitle>
+          <SingleDescription
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(postDescription),
+            }}
+          />
+        </SingleContent>
+        <Menu cat={postCategory} />
+      </SingleContainer>
+    </>
   );
 };
 

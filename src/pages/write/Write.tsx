@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ChangeEvent, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
-import { upload } from '@/utilities';
+import { capitalize, createAndUpdatePost, upload } from '@/utilities';
 import 'react-quill/dist/quill.snow.css';
 import {
   WriteButton,
@@ -16,39 +17,122 @@ import {
   WriteMenu,
   WriteTitle,
 } from './styled-components';
+import { Alert, Spinner } from '@/components';
+import { AppStore, INewPost } from '@/models';
 
 const Write = () => {
+  const navigation = useNavigate();
+  const currentUser = useSelector((state: AppStore) => state.user.currentUser);
   const location = useLocation();
-  const { postCategory, postDescription, postImage, postTitle } =
-    location.state;
-  const [desc, setDesc] = useState<string>(postDescription || '');
-  const [file, setFile] = useState<any | null>(null);
-  const [newPost, setNewPost] = useState({
-    cat: postCategory || '',
-    title: postTitle || '',
-    photo: postImage || '',
-    photoPublicId: '',
+  const id = location.state ? location.state.postId : '';
+
+  const [file, setFile] = useState<HTMLInputElement | null>(null);
+  const [warning, setWarning] = useState<boolean>(false);
+  const [onError, setOnError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [text, setText] = useState<string>('');
+  const [desc, setDesc] = useState<string>(
+    location.state ? location.state.postDescription : ''
+  );
+  const [newPost, setNewPost] = useState<INewPost>({
+    category: location.state?.postCategory || '',
+    title: location.state?.postTitle || '',
+    photo: location.state ? location.state.postImage : '',
+    photoPublicId: location.state ? location.state.postImageId : '',
+    user: location.state ? location.state.postUserId : currentUser.id,
   });
 
-  const handleChange = (event: any) => {
-    const { value } = event.target;
-    setNewPost({ ...newPost, [event.target.name]: value });
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewPost({ ...newPost, [event.target.name]: event.target.value });
   };
 
-  const handlePublish = async () => {
-    // TODO: Crear un Custom Hook Para Subir las imagenes
-    const result = await upload(file); //! Delete Function and convert CustomHook
+  const handlePublishAndSave = async () => {
+    if (
+      !newPost.category.length ||
+      !newPost.title.length ||
+      !newPost.user.length
+    ) {
+      setIsActive(true);
+      setWarning(true);
+      setText('Debe llenar todos los campos.');
+      return;
+    }
 
-    const newCreatePost = {
+    setIsLoading(true);
+
+    if (!newPost.photo.length) {
+      if (!file) {
+        setIsActive(true);
+        setWarning(true);
+        setText('Debe subir una imagen para crear el post.');
+        return;
+      }
+
+      const result = await upload(file);
+
+      if (result) {
+        const newCreatePost = {
+          ...newPost,
+          description: capitalize(desc),
+          photo: newPost.photo.length ? newPost.photo : result.data.photo,
+          photoPublicId: result?.data.photoPublicId,
+        };
+
+        const response = await createAndUpdatePost(id, newCreatePost);
+
+        if (!response.status) {
+          setIsLoading(false);
+          setOnError(response.status);
+          setText('Ocurrio un problema inesperado!');
+        }
+
+        setIsLoading(false);
+        setIsActive(true);
+        setText('Se creo el post correctamente');
+        setTimeout(() => {
+          response.status && navigation('/');
+        }, 3000);
+      }
+      return;
+    }
+
+    const updatePost = {
       ...newPost,
-      desc,
-      photo: result?.data.photo,
-      photoPublicId: result?.data.photoPublicId,
+      description: capitalize(desc),
     };
 
-    // TODO: Create method, newPostSlice and UpdatePostSlice
-    console.log({ newCreatePost });
+    const response = await createAndUpdatePost(id, updatePost);
+    if (!response.status) {
+      setIsLoading(false);
+      setOnError(response.status);
+      setText('Ocurrio un problema inesperado!');
+      return;
+    }
+
+    setIsLoading(false);
+    setIsActive(true);
+    setText('Se actuliazo su post!');
+    setTimeout(() => {
+      response.status && navigation('/');
+    }, 3000);
   };
+
+  if (isActive) {
+    return (
+      <Alert
+        error={onError}
+        text={text}
+        showAlert={isActive}
+        setShowAlert={setIsActive}
+        warning={warning}
+      />
+    );
+  }
+
+  if (isLoading) {
+    return <Spinner isVisible={isLoading} />;
+  }
 
   return (
     <WriteContainer>
@@ -83,14 +167,15 @@ const Write = () => {
             style={{ display: 'none' }}
             type="file"
             id="file"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e: any) => setFile(e.target.files[0])}
           />
           <WriteFile className="file" htmlFor="file">
             Upload Image
           </WriteFile>
           <WriteButtons>
-            <WriteButton>Save as a draft</WriteButton>
-            <WriteButton onClick={handlePublish}>Publish</WriteButton>
+            <WriteButton onClick={handlePublishAndSave}>
+              {location.state ? 'Save as a draft' : 'Publish'}
+            </WriteButton>
           </WriteButtons>
         </WriteItem>
         <WriteItem className="item">
@@ -98,9 +183,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'news'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'news'}
+              name="category"
+              value="news"
               id="news"
               onChange={(e) => handleChange(e)}
             />
@@ -109,9 +194,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'computing'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'computing'}
+              name="category"
+              value="computing"
               id="computing"
               onChange={(e) => handleChange(e)}
             />
@@ -120,9 +205,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'marketing'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'marketing'}
+              name="category"
+              value="marketing"
               id="marketing"
               onChange={(e) => handleChange(e)}
             />
@@ -131,9 +216,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'labor'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'labor'}
+              name="category"
+              value="labor"
               id="labor"
               onChange={(e) => handleChange(e)}
             />
@@ -142,9 +227,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'stories'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'stories'}
+              name="category"
+              value="stories"
               id="stories"
               onChange={(e) => handleChange(e)}
             />
@@ -153,9 +238,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'sports'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'sports'}
+              name="category"
+              value="sports"
               id="sports"
               onChange={(e) => handleChange(e)}
             />
@@ -164,9 +249,9 @@ const Write = () => {
           <WriteCategories>
             <WriteInput
               type="radio"
-              checked={newPost.cat === 'music'}
-              name="cat"
-              value={newPost.cat}
+              checked={newPost.category === 'music'}
+              name="category"
+              value="music"
               id="music"
               onChange={(e) => handleChange(e)}
             />

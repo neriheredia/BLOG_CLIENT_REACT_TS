@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, InputField, LoadingButton } from '@/components';
-import { RegisterContainer, RegisterTitle } from './styled-components';
+import {
+  RegisterContainer,
+  RegisterSpan,
+  RegisterTitle,
+} from './styled-components';
 import { schemaRegister } from './model';
 import { useFetchAndLoad } from '@/hook';
 import {
@@ -14,8 +18,8 @@ import {
   registerUserFailure,
 } from '@/redux/states/user';
 import { registerUser } from '@/services';
-import { AppStore } from '@/redux/store';
 import { IUser } from '../../models/user.model';
+import { AppStore } from '@/models';
 
 const Register = () => {
   const { callEndpoint } = useFetchAndLoad();
@@ -63,6 +67,8 @@ const Register = () => {
         sx={{
           bgcolor: 'grey.200',
           borderRadius: '20px',
+          display: 'flex',
+          flexDirection: 'column',
           p: '50px',
           width: '20%',
         }}
@@ -107,6 +113,11 @@ const Register = () => {
             </LoadingButton>
           </Box>
         </form>
+        <RegisterSpan>
+          <Link className="link" to="/login">
+            <span>Do you want to return login?</span>
+          </Link>
+        </RegisterSpan>
       </Box>
       <Alert
         error={status !== 201}

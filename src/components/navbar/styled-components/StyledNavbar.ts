@@ -8,6 +8,7 @@ export const Container = styled.div`
 `;
 
 export const Logo = styled.img`
+  cursor: pointer;
   width: 100px;
 `;
 
@@ -50,6 +51,20 @@ export const Write = styled.span`
     background-color: white;
     border: 1px solid #97c2fc;
   }
+`;
+
+export const WriteDisabled = styled.span`
+  align-items: center;
+  background-color: #d6d6d6;
+  border: 1px solid white;
+  border-radius: 50%;
+  color: white;
+  cursor: default;
+  display: flex;
+  font-weight: 300;
+  height: 50px;
+  justify-content: center;
+  width: 50px;
 `;
 
 export const SingleAvatarDefault = styled.div`

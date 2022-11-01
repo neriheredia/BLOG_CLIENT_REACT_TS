@@ -12,13 +12,18 @@ interface Props {
   warning?: boolean | undefined;
 }
 
+interface StyleBg {
+  onError?: boolean;
+  warning?: boolean;
+}
+
 const AlertContainer: any = styled.div`
   animation: fadeIn 1s ease;
   align-items: center;
-  background-color: ${({ onError, warning }: any) => {
+  background-color: ${({ onError, warning }: StyleBg) => {
     if (onError) return red.A200;
-    if (warning) return yellow[200];
-    return green.A200;
+    if (warning) return yellow[800];
+    return green[400];
   }};
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;

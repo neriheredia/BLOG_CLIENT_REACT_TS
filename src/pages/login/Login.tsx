@@ -82,7 +82,12 @@ const Login = () => {
               Don`t you have an account?
               <Link className="link" to="/register">
                 {' '}
-                <span>Register</span>
+                <span>Click here!</span>
+              </Link>
+            </LoginSpan>
+            <LoginSpan>
+              <Link className="link" to="/">
+                <span>Do you want to return home?</span>
               </Link>
             </LoginSpan>
           </Box>

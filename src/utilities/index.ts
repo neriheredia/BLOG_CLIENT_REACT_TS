@@ -1,5 +1,6 @@
 export { default as RoutesWhitNotFound } from './RoutesWhitNotFound.utility';
 export * from './categoriesCapitalize';
+export * from './createAndUpdatePost';
 export * from './formattedAllCategories';
 export * from './formattedAllPosts';
 export * from './formattedLocationSearch';

@@ -3,6 +3,7 @@ export const postAdapter = (post: any) => ({
   postCategory: post.category,
   postId: post._id,
   postImage: post.photo,
+  postImageId: post.photoPublicId,
   postTitle: post.title,
   postCreated: post.updatedAt,
   postUserCreator: `${post.user.lastName} ${post.user.firstName}`,

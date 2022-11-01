@@ -16,3 +16,11 @@ export interface IPostMenu {
   postTitle: string;
   postDescription?: string;
 }
+
+export interface INewPost {
+  category: string;
+  title: string;
+  photo: string;
+  photoPublicId: string;
+  user: string;
+}

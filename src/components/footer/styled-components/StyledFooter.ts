@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const FooterBold = styled.b``;
+export const FooterBold = styled.a`
+  text-decoration: none;
+`;
 
 export const FooterContainer = styled.footer`
   align-items: center;

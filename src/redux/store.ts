@@ -1,9 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userSlice } from './states/user';
-
-export interface AppStore {
-  user: any;
-}
+import { AppStore } from '@/models';
 
 export default configureStore<AppStore>({
   reducer: {

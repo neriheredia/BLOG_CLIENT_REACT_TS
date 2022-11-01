@@ -48,7 +48,7 @@ const Spinner = ({
         <SpinnerContainer>
           <SpinnerContent>
             <GridLoader color={color} size={size} />
-            <Titles>{text.length && text}</Titles>
+            <Titles>{text}</Titles>
           </SpinnerContent>
         </SpinnerContainer>
       )}
