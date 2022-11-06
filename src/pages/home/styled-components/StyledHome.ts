@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Device } from '@/styled-components';
 
 export const HomePosts = styled.div`
   margin-top: 50px;
@@ -11,8 +12,16 @@ export const HomePost = styled.div`
   display: flex;
   gap: 100px;
 
+  @media ${Device.tabletL} {
+    flex-direction: column;
+  }
+
   &:nth-child(2n + 1) {
     flex-direction: row-reverse;
+
+    @media ${Device.tabletL} {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -30,6 +39,10 @@ export const HomeImageContent = styled.div`
     top: 20px;
     width: 100%;
     z-index: -1;
+
+    @media ${Device.tabletL} {
+      display: none;
+    }
   }
 `;
 
@@ -46,6 +59,12 @@ export const HomeContent = styled.div`
   flex: 3;
   flex-direction: column;
   justify-content: space-between;
+  text-align: start;
+  width: 100%auto;
+
+  @media ${Device.tabletL} {
+    padding: 0 20px;
+  }
 `;
 
 export const HomePostTitle = styled.h1`

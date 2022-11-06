@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from './model';
-import { LoginContainer, LoginSpan, LoginTitle } from './styled-components';
-import { Button, InputField } from '@/components';
+import {
+  LoginBox,
+  LoginContainer,
+  LoginSpan,
+  LoginTitle,
+} from './styled-components';
+import { Alert, Button, InputField } from '@/components';
 import { useFetchAndLoad } from '@/hook';
 import {
   loginUserStart,
@@ -20,6 +26,9 @@ const Login = () => {
   const { callEndpoint } = useFetchAndLoad();
   const dispatch = useDispatch();
   const navigation = useNavigate();
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
   const {
     register,
     handleSubmit,
@@ -37,9 +46,13 @@ const Login = () => {
       tokenInterceptor(resp);
       const userFormatted: any = userAdapter(resp?.data.data);
       dispatch(loginUserSuccess(userFormatted));
-      navigation('/');
+      setMessage(resp.data.message);
+      setStatus(resp.data.status);
+      setShowAlert(true);
     } catch (error: any) {
       dispatch(loginUserFailure());
+      setMessage(error.message && 'Oops a problem occurred');
+      setShowAlert(true);
     }
   };
 
@@ -51,14 +64,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginTitle>Login</LoginTitle>
-      <Box
-        sx={{
-          bgcolor: 'grey.200',
-          borderRadius: '20px',
-          p: '50px',
-          width: '20%',
-        }}
-      >
+      <LoginBox>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <InputField
@@ -92,7 +98,13 @@ const Login = () => {
             </LoginSpan>
           </Box>
         </form>
-      </Box>
+      </LoginBox>
+      <Alert
+        error={status !== 201}
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        text={message}
+      />
     </LoginContainer>
   );
 };

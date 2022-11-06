@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, InputField, LoadingButton } from '@/components';
 import {
+  RegisterBox,
   RegisterContainer,
   RegisterSpan,
   RegisterTitle,
@@ -63,16 +64,7 @@ const Register = () => {
   return (
     <RegisterContainer className="auth">
       <RegisterTitle>Register</RegisterTitle>
-      <Box
-        sx={{
-          bgcolor: 'grey.200',
-          borderRadius: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          p: '50px',
-          width: '20%',
-        }}
-      >
+      <RegisterBox>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <InputField
@@ -118,7 +110,7 @@ const Register = () => {
             <span>Do you want to return login?</span>
           </Link>
         </RegisterSpan>
-      </Box>
+      </RegisterBox>
       <Alert
         error={status !== 201}
         showAlert={showAlert}
