@@ -1,13 +1,22 @@
 import styled from 'styled-components';
+import { Device } from '@/styled-components';
 
 export const WriteContainer = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 20px;
+
+  @media ${Device.tabletL} {
+    flex-direction: column;
+  }
 `;
 
 export const WriteContent = styled.div`
   flex: 5;
+
+  @media ${Device.tabletL} {
+    padding: 0 10px;
+  }
 `;
 
 export const WriteMenu = styled.div`
@@ -15,6 +24,11 @@ export const WriteMenu = styled.div`
   flex: 2;
   flex-direction: column;
   gap: 20px;
+
+  @media ${Device.tabletL} {
+    flex-direction: column-reverse;
+    padding: 0 10px;
+  }
 `;
 
 export const WriteItem = styled.div`

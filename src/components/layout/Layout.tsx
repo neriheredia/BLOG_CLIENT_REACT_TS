@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Footer, Navbar, Spinner } from '@/components';
+import { Footer, Navbar } from '@/components';
 import { ApplicationContent } from '@/styled-components';
 
 const Layout = () => {

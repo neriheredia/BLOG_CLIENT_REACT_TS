@@ -1,15 +1,24 @@
 import styled from 'styled-components';
+import { Device } from '@/styled-components';
 
-export const Container = styled.div`
+interface StyleProps {
+  size?: number;
+}
+
+export const DesktopContainer = styled.div`
   padding: 10px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media ${Device.tabletL} {
+    display: none;
+  }
 `;
 
 export const Logo = styled.img`
   cursor: pointer;
-  width: 100px;
+  width: ${({ size }: StyleProps) => `${size}px` || '100px'};
 `;
 
 export const Links = styled.div`
@@ -81,4 +90,17 @@ export const SingleAvatarDefault = styled.div`
   justify-content: center;
   letter-spacing: 2px;
   width: 30px;
+`;
+
+export const ResponsiveContainer = styled.div`
+  display: none;
+
+  @media ${Device.tabletL} {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 15px;
+    max-height: 70px;
+    padding: 10px 0px;
+  }
 `;

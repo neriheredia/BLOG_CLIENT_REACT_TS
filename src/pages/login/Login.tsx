@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -21,9 +21,11 @@ import {
 import { loginUser } from '@/services/public/loginService';
 import { userAdapter } from '@/adapters/user.adapter';
 import { tokenInterceptor } from '@/utilities';
+import { AppStore } from '@/models';
 
 const Login = () => {
   const { callEndpoint } = useFetchAndLoad();
+  const currentUser = useSelector((state: AppStore) => state.user.currentUser);
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const [message, setMessage] = useState('');
@@ -59,6 +61,7 @@ const Login = () => {
   const onSubmit = (data: any) => {
     postApiData(data);
     reset();
+    currentUser && !showAlert && setTimeout(() => navigation('/'), 1000);
   };
 
   return (
@@ -100,7 +103,7 @@ const Login = () => {
         </form>
       </LoginBox>
       <Alert
-        error={status !== 201}
+        error={status !== 200}
         showAlert={showAlert}
         setShowAlert={setShowAlert}
         text={message}
